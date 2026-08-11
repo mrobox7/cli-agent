@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Local Execution Architecture</title>
+<style>
+  html,body{margin:0;padding:0;background:#0b0d10;}
+  .wrap{width:100%;overflow:auto;padding:20px;box-sizing:border-box;}
+  svg{display:block;margin:0 auto;background:#0b0d10;}
+  text{font-family:'Segoe UI',Inter,system-ui,sans-serif;}
+  .title{font:600 16px 'Segoe UI',sans-serif;fill:#182233;}
+  .sub{font:400 12.5px 'Segoe UI',sans-serif;fill:#5b6b82;}
+  .warnsub{font:600 12px 'Segoe UI',sans-serif;fill:#a1400f;}
+  .panel-tag{font:700 15px 'Segoe UI',sans-serif;fill:#0d3b40;}
+  .edge-label{font:500 13px 'Segoe UI',sans-serif;fill:#d9f7fa;}
+  .edge-label-amber{font:500 13px 'Segoe UI',sans-serif;fill:#ffe3c2;}
+  .code{font:400 12.5px 'Fira Code',monospace;fill:#c7d3e0;}
+  .codekey{font:400 12.5px 'Fira Code',monospace;fill:#7fe3ea;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg width="2350" height="1200" viewBox="0 0 2350 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="cardShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2fd3df"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8a33d"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="2350" height="1200" fill="#0b0d10"/>
+  <text x="70" y="50" style="font:700 26px 'Segoe UI',sans-serif;fill:#e8edf5;">Local Execution Architecture</text>
+
+  <!-- ============ PANEL BACKGROUNDS ============ -->
+  <rect x="40" y="140" width="1000" height="1010" rx="26" fill="#e9eef6" stroke="#7d93b3" stroke-width="2"/>
+  <rect x="1300" y="40" width="960" height="740" rx="26" fill="#e9eef6" stroke="#7d93b3" stroke-width="2"/>
+
+  <!-- panel tag pills (top-left, overlapping the border like the reference) -->
+  <g filter="url(#cardShadow)">
+    <rect x="55" y="118" width="120" height="34" rx="17" fill="#d8f3f5" stroke="#2fd3df" stroke-width="1.6"/>
+  </g>
+  <text x="75" y="140" class="panel-tag">☁ Cloud</text>
+
+  <g filter="url(#cardShadow)">
+    <rect x="1315" y="18" width="190" height="34" rx="17" fill="#d8f3f5" stroke="#2fd3df" stroke-width="1.6"/>
+  </g>
+  <text x="1335" y="40" class="panel-tag">🖥 Local Machine</text>
+
+  <!-- brand icons above Agent Panel -->
+  <text x="1700" y="90" style="font-size:30px;">📦</text>
+  <text x="1760" y="88" style="font-size:26px;">✨</text>
+
+  <!-- ============ CONNECTORS ============ -->
+  <!-- user task: Agent Panel -> Orchestrator Agent -->
+  <path d="M1500,155 L1170,155 L1170,258 L984,258" fill="none" stroke="#2fd3df" stroke-width="2.6" marker-end="url(#arrow)"/>
+  <rect x="1125" y="140" width="90" height="24" rx="6" fill="#11151a" opacity="0.88"/>
+  <text x="1170" y="157" text-anchor="middle" class="edge-label">user task</text>
+
+  <!-- delegate subtask: Orchestrator -> Permission Scope Layer -->
+  <path d="M984,330 L1170,330 L1170,278 L1338,278" fill="none" stroke="#2fd3df" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <rect x="1105" y="300" width="140" height="24" rx="6" fill="#11151a" opacity="0.88"/>
+  <text x="1175" y="317" text-anchor="middle" class="edge-label">delegate subtask</text>
+
+  <!-- iterate if failed: self-loop on Orchestrator -->
+  <path d="M850,220 L850,180 L960,180 L960,220" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <rect x="845" y="154" width="130" height="24" rx="6" fill="#11151a" opacity="0.88"/>
+  <text x="910" y="171" text-anchor="middle" class="edge-label">iterate if failed</text>
+
+  <!-- output / error: Local tools -> Orchestrator (dashed amber) -->
+  <path d="M1340,450 L1170,450 L1170,355 L988,355" fill="none" stroke="#e8a33d" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrowAmber)"/>
+  <rect x="1112" y="400" width="115" height="24" rx="6" fill="#11151a" opacity="0.9"/>
+  <text x="1170" y="417" text-anchor="middle" class="edge-label-amber">output / error</text>
+
+  <!-- plan + generate: Orchestrator -> Vercel AI Gateway -->
+  <path d="M420,420 L420,688" fill="none" stroke="#2fd3df" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <rect x="330" y="535" width="130" height="24" rx="6" fill="#11151a" opacity="0.88"/>
+  <text x="395" y="552" text-anchor="middle" class="edge-label">plan + generate</text>
+
+  <!-- AI Gateway -> Providers -->
+  <path d="M960,716 L998,716" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M960,754 L998,754" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M960,792 L998,792" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+  <!-- Permission Scope Layer -> 4 tool cards -->
+  <path d="M1435,340 L1435,388" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M1655,340 L1655,388" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M1875,340 L1875,388" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M2095,340 L2095,388" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+  <!-- tool cards -> target cards -->
+  <path d="M1435,500 L1435,558" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M1655,500 L1655,558" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M1875,500 L1875,530 L1925,530 L1925,558" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <path d="M2095,500 L2095,530 L2010,530 L2010,558" fill="none" stroke="#2fd3df" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+  <!-- ============ CLOUD CARDS ============ -->
+  <g filter="url(#cardShadow)">
+    <rect x="80" y="220" width="280" height="100" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="80" y="340" width="280" height="100" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="400" y="220" width="580" height="200" rx="18" fill="#e6fcf5" stroke="#0ca678" stroke-width="1.8"/>
+    <rect x="520" y="460" width="420" height="190" rx="16" fill="#f2f5f9" stroke="#94a8c2" stroke-width="1.4" stroke-dasharray="6 5"/>
+    <rect x="565" y="515" width="330" height="100" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="400" y="690" width="560" height="150" rx="16" fill="#0f1216" stroke="#2fd3df" stroke-width="1.8"/>
+    <rect x="1000" y="700" width="220" height="32" rx="8" fill="#ffffff" stroke="#c3d0e0"/>
+    <rect x="1000" y="738" width="220" height="32" rx="8" fill="#ffffff" stroke="#c3d0e0"/>
+    <rect x="1000" y="776" width="220" height="32" rx="8" fill="#ffffff" stroke="#c3d0e0"/>
+    <rect x="80" y="880" width="900" height="230" rx="16" fill="#0f1216" stroke="#2a313b" stroke-width="1.6"/>
+  </g>
+
+  <text x="100" y="255" class="title">🔎 Context Engine</text>
+  <text x="100" y="275" class="sub">repo map · code search</text>
+
+  <text x="100" y="375" class="title">🗂 Session Store</text>
+  <text x="100" y="395" class="sub">history · checkpoints</text>
+
+  <text x="420" y="270" class="title" style="font-size:19px;">🧠 Orchestrator Agent</text>
+  <text x="420" y="295" class="sub" style="font-size:13.5px;">plan · delegate · iterate</text>
+
+  <text x="730" y="490" class="title" text-anchor="middle">📦 Sub-agent (isolated context)</text>
+  <text x="730" y="555" class="title" text-anchor="middle">🤖 Sub-agent</text>
+  <text x="730" y="575" class="sub" text-anchor="middle">exploration only</text>
+
+  <text x="420" y="725" style="font:700 17px 'Segoe UI',sans-serif;fill:#eaf7f8;">▲ Vercel AI Gateway</text>
+  <text x="420" y="748" style="font:400 12.5px 'Segoe UI',sans-serif;fill:#9fb4bd;">LLM calls with failover</text>
+
+  <text x="1110" y="722" class="title" text-anchor="middle">OpenAI</text>
+  <text x="1110" y="760" class="title" text-anchor="middle">Anthropic</text>
+  <text x="1110" y="798" class="title" text-anchor="middle">Google</text>
+
+  <!-- AI Gateway mockup card -->
+  <text x="110" y="925" style="font:700 18px 'Segoe UI',sans-serif;fill:#f2f5f9;">✨ AI Gateway</text>
+  <text x="110" y="948" style="font:400 13px 'Segoe UI',sans-serif;fill:#93a2b3;">One endpoint, all your models</text>
+  <rect x="110" y="970" width="840" height="110" rx="10" fill="#181c22" stroke="#2a313b"/>
+  <text x="130" y="995" style="font:400 11.5px 'Segoe UI',sans-serif;fill:#6f7d8c;">AI SDK   Python   OpenAI HTTP</text>
+  <text x="130" y="1020" class="code"><tspan class="codekey">import</tspan> { streamText } <tspan class="codekey">from</tspan> "ai";</text>
+  <text x="130" y="1042" class="code">model: <tspan style="fill:#f2a65a;">"anthropic/claude-4.5"</tspan>,</text>
+  <text x="130" y="1062" class="code">prompt: <tspan style="fill:#f2a65a;">"Why is the sky blue?"</tspan></text>
+
+  <!-- ============ LOCAL MACHINE CARDS ============ -->
+  <g filter="url(#cardShadow)">
+    <rect x="1500" y="110" width="500" height="90" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1340" y="230" width="860" height="110" rx="16" fill="#fbf6de" stroke="#c9a441" stroke-width="1.8"/>
+    <rect x="1340" y="390" width="190" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1560" y="390" width="190" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1780" y="390" width="190" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="2000" y="390" width="190" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1330" y="560" width="210" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1550" y="560" width="210" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+    <rect x="1880" y="560" width="210" height="110" rx="14" fill="#ffffff" stroke="#94a8c2" stroke-width="1.4"/>
+  </g>
+  <!-- security tradeoff chip, overlapping Permission Scope Layer's top-right corner -->
+  <g filter="url(#cardShadow)">
+    <rect x="2030" y="212" width="160" height="30" rx="8" fill="#e74c3c" stroke="#a8281c" stroke-width="1.4"/>
+  </g>
+  <text x="2110" y="232" text-anchor="middle" style="font:700 12px 'Segoe UI',sans-serif;fill:#ffffff;">⚠ security tradeoff</text>
+
+  <text x="1520" y="145" class="title">💻 Agent Panel</text>
+  <text x="1520" y="166" class="sub">user-facing client</text>
+
+  <text x="1360" y="265" class="title">🔒 Permission Scope Layer</text>
+  <text x="1360" y="286" class="sub">scoped access policy</text>
+  <text x="1360" y="304" class="warnsub">the security boundary — no sandbox</text>
+
+  <text x="1360" y="425" class="title">📝 write_file</text>
+  <text x="1360" y="443" class="sub">agent</text>
+
+  <text x="1580" y="425" class="title">&gt;_ run_command</text>
+  <text x="1580" y="443" class="sub">agent</text>
+
+  <text x="1800" y="425" class="title">📄 read_file</text>
+  <text x="1800" y="443" class="sub">agent</text>
+
+  <text x="2020" y="425" class="title">🧪 run_tests</text>
+  <text x="2020" y="443" class="sub">agent</text>
+
+  <text x="1350" y="600" class="title">🗄 Filesystem</text>
+  <text x="1570" y="600" class="title">⌨ Terminal</text>
+  <text x="1900" y="600" class="title">&lt;&gt; Codebase</text>
+
+</svg>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "cli-agent",
+  "version": "0.1.0",
+  "description": "Local CLI coding agent: natural-language task -> LLM tool-call loop -> permission-gated execution.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "cli-agent": "./src/index.tsx"
+  },
+  "scripts": {
+    "dev": "tsx src/index.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "^3.0.20",
+    "@inquirer/prompts": "^8.5.2",
+    "ai": "^7.0.48",
+    "commander": "^15.0.0",
+    "ink": "^6.4.1",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
